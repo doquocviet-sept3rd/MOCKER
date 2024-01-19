@@ -1,0 +1,148 @@
+openapi: "3.0.3"
+info:
+  title: mocker API
+  description: Website MOCKER generates source for system testing.
+  version: 0.0.1
+paths:
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: the user id
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getUser
+      tags:
+        - Users
+      description: get a user
+      responses:
+        200:
+          description: the query is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/AuthenticationError'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+components:
+  schemas:
+    Base:
+      type: object
+      description: BASE structure
+      properties:
+        createdDate:
+          type: string
+          format: date-time
+          description: audit created date
+        createdBy:
+          readOnly: true
+          type: string
+          format: uuid
+          description: audit created by
+        modifiedDate:
+          type: string
+          format: date-time
+          description: audit modified date
+        modifiedBy:
+          readOnly: true
+          type: string
+          format: uuid
+          description: audit modified by
+        version:
+          readOnly: true
+          type: integer
+          description: audit version
+    User:
+      type: object
+      description: USER table
+      properties:
+        id:
+          readOnly: true
+          type: string
+          format: uuid
+          description: user id
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          description: email of user
+        password:
+          type: string
+          maxLength: 255
+          description: password of user
+      allOf:
+        - $ref: '#/components/schemas/Base'
+    Error:
+      description: schema for error response body
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: integer
+        message:
+          type: string
+        path:
+          type: string
+        code:
+          enum:
+            - UNEXPECTED_EXCEPTION
+            - AUTHENTICATION_EXCEPTION
+            - PERMISSION_EXCEPTION
+            - BAD_REQUEST
+            - NOT_FOUND
+            - CONFLICT
+            - INVALID_STATUS
+          description: |
+            Ged error code:
+            * UNEXPECTED_EXCEPTION - unexpected error.
+            * AUTHENTICATION_EXCEPTION - user is not authenticated.
+            * PERMISSION_EXCEPTION - user does not have permission to perform the action.
+            * BAD_REQUEST - the request is wrong.
+            * NOT_FOUND - resource not found.
+            * CONFLICT - business error.
+            * INVALID_STATUS - resource status is not valid.
+        additionalMessage:
+          type: string
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    AuthenticationError:
+      description: Authentication Error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized, access to this resource is not allowed
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request, invalid query syntax
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: Internal Server Error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
