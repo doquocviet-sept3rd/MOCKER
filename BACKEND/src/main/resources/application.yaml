@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mocker_database
+    username: mocker_user
+    password: mocker_password
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+  thymeleaf:
+    check-template-location: false
+server:
+  port: 8080
