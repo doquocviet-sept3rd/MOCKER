@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  @apply tw-m-0 tw-p-0 tw-box-border;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+
+  input, label, textarea {
+    font-family: 'Roboto', sans-serif;
+    @apply tw-outline-0;
+  }
+}

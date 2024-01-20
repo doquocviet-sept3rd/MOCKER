@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'FRONTEND';
+  constructor(
+    private translateService: TranslateService
+  ) {
+    const language: string = 'en';
+    this.translateService.setDefaultLang(language);
+    this.translateService.use(language);
+  }
 }
