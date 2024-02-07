@@ -36,7 +36,7 @@ public class User extends Base implements Serializable {
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;

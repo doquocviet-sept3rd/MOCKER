@@ -1,4 +1,4 @@
-package com.mocker.controller;
+package com.mocker.controller.users;
 
 import com.mocker.api.UsersApi;
 import com.mocker.domain.dto.UserDto;
@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api")
-public class UserController implements UsersApi {
+@RequestMapping(path = "/api/v1")
+public class UsersController implements UsersApi {
 
     private final UserService userService;
 

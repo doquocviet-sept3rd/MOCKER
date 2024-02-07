@@ -1,0 +1,23 @@
+{
+  "label": {
+    "email": "email",
+    "password": "password",
+    "confirm_password": "confirm password"
+  },
+  "component": {
+    "sign_up": {
+      "sign_up": "sign up",
+      "welcome": "Welcome Friend!",
+      "welcome_message": "If you already have a account, please <br/> click the SIGN IN button to continue",
+      "create_account": "Create Account",
+      "use_email_message": "or use your email for registration"
+    },
+    "sign_in": {
+      "sign_in": "sign in",
+      "welcome": "Welcome Friend!",
+      "welcome_message": "If you don't have a account yet, please <br/> click the SIGN UP button to continue",
+      "access_your_account": "Access Your Account",
+      "use_email_message": "or use your email for login"
+    }
+  }
+}

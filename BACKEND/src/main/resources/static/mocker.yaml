@@ -4,6 +4,62 @@ info:
   description: Website MOCKER generates source for system testing.
   version: 0.0.1
 paths:
+  /auth/authenticate:
+    post:
+      operationId: authenticate
+      tags:
+        - Auth
+      description: authenticate a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        200:
+          description: the query is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/AuthenticationError'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /auth/register:
+    post:
+      operationId: register
+      tags:
+        - Auth
+      description: register a new account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        200:
+          description: the query is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/AuthenticationError'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
   /users/{id}:
     parameters:
       - in: path
@@ -37,6 +93,7 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
+    # Entities
     Base:
       type: object
       description: BASE structure
@@ -83,6 +140,28 @@ components:
           description: password of user
       allOf:
         - $ref: '#/components/schemas/Base'
+    # Requests/Responses
+    AuthRequest:
+      description: request body for authentication/authorization
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+        password:
+          type: string
+          readOnly: true
+    AuthResponse:
+      description: response body for authentication/authorization
+      type: object
+      properties:
+        token:
+          type: string
+    # Errors
     Error:
       description: schema for error response body
       type: object
@@ -92,8 +171,6 @@ components:
         status:
           type: integer
         message:
-          type: string
-        path:
           type: string
         code:
           enum:

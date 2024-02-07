@@ -1,3 +1,4 @@
+version: '3.1'
 services:
   mocker-database:
     image: postgres:latest
@@ -6,4 +7,4 @@ services:
       - POSTGRES_USER=mocker_user
       - POSTGRES_PASSWORD=mocker_password
     ports:
-      - 5432:5432
+      - "5432:5432"

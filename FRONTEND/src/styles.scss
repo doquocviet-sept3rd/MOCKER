@@ -11,8 +11,34 @@
 body {
   font-family: 'Roboto', sans-serif;
 
-  input, label, textarea {
+  button, input, label, textarea {
     font-family: 'Roboto', sans-serif;
     @apply tw-outline-0;
+
+    &:focus-visible {
+      @apply tw-outline-0;
+    }
   }
 }
+
+.screen {
+  @apply tw-h-screen tw-w-screen;
+}
+
+.bg-primary {
+  background-color: #0DB8A8;
+}
+
+.bg-secondary {
+  background-color: #ECF8EA;
+}
+
+.text-primary {
+  color: #0DB8A8;
+}
+
+.text-secondary {
+  color: #ECF8EA;
+}
+
+// https://icons8.com/icons/set/facebook

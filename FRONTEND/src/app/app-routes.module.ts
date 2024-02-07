@@ -5,6 +5,9 @@ import { HOME } from './component/home/home.constant';
 
 export const routes: Routes = [
   {
+    path: '', redirectTo: HOME, pathMatch: 'full'
+  },
+  {
     path: AUTH,
     loadChildren: () => import('./component/auth/auth.module').then(m => m.AuthModule)
   },
