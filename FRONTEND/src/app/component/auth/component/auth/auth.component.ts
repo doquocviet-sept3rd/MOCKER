@@ -7,6 +7,7 @@ import { DomUtil } from '../../../../shared/util/dom.util';
 import { EqualValidator } from '../../../../shared/validator/equal.validator';
 import { AppConfig } from '../../../../app.config';
 import { HOME } from '../../../home/home.constant';
+import { AbstractComponent } from '../../../../shared/common/abstract.component';
 
 interface AuthFormGroup {
   username: FormControl;
@@ -18,7 +19,7 @@ interface AuthFormGroup {
   templateUrl: 'auth.component.html',
   styleUrls: ['auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent extends AbstractComponent {
   signInProgress: boolean = false;
   authFormGroup: FormGroup<AuthFormGroup>;
   confirmPassword: FormControl;
@@ -30,6 +31,7 @@ export class AuthComponent {
     private authService: AuthService,
     private appConfig: AppConfig
   ) {
+    super();
     this.signInProgress = this.activatedRoute.routeConfig?.path === SIGN_IN;
     this.authFormGroup = formBuilder.group<AuthFormGroup>({
       username: formBuilder.control(undefined, [Validators.required, Validators.email]),

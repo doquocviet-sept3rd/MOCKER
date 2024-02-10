@@ -2,7 +2,9 @@
   "label": {
     "email": "email",
     "password": "password",
-    "confirm_password": "confirm password"
+    "confirm_password": "confirm password",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "component": {
     "sign_up": {
@@ -18,6 +20,16 @@
       "welcome_message": "If you don't have a account yet, please <br/> click the SIGN UP button to continue",
       "access_your_account": "Access Your Account",
       "use_email_message": "or use your email for login"
+    }
+  },
+  "modal": {
+    "dialog": {
+      "title": {
+        "CONFIRM": "CONFIRMATION",
+        "ERROR": "ERROR",
+        "INFORM": "INFORMATION",
+        "WARN": "WARNING"
+      }
     }
   }
 }

@@ -1,0 +1,15 @@
+<div class='container tw-relative tw-p-5 tw-rounded-xl tw-text-sm tw-overflow-hidden'>
+  <p class='tw-absolute tw-w-full tw-h-1.5 {{ bgColor }} tw-top-0 tw-left-0'></p>
+  <p class='tw-font-medium'>{{ title }}</p>
+  <p class='tw-mt-3'>{{ options.description }}</p>
+  <div class='tw-mt-3 tw-flex tw-justify-end'>
+    <button *ngIf='hasConfirmButton' (click)='onConfirm()'
+            class='confirm-button {{ bgColor }} tw-text-white tw-px-3 tw-py-2 tw-rounded-md hover:tw-drop-shadow'>
+      {{ (options.confirmLabel || 'label.confirm') | translate }}
+    </button>
+    <button *ngIf='hasCancelButton' (click)='onCancel()'
+            class='cancel-button tw-ml-2 tw-px-3 tw-py-2 tw-border tw-rounded-md hover:tw-drop-shadow'>
+      {{ (options.cancelLabel || 'label.cancel') | translate }}
+    </button>
+  </div>
+</div>
