@@ -1,6 +1,6 @@
-import {AbstractService, HttpMethod} from './abstract.service';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { AbstractService, HttpMethod } from './abstract.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface AuthResponse {
   token: string;
@@ -10,19 +10,23 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService extends AbstractService<any> {
-  static ROUTE: string = 'api/v1/auth';
+  ROUTE: string = 'api/v1/auth';
 
   signIn(username: string, password: string): Observable<AuthResponse> {
-    return this.request(HttpMethod.POST, `${AuthService.ROUTE}/authenticate`, {
-      username,
-      password
+    return this.request(HttpMethod.POST, `${this.ROUTE}/authenticate`, {
+      body: {
+        username,
+        password
+      }
     });
   }
 
   signUp(username: string, password: string): Observable<AuthResponse> {
-    return this.request(HttpMethod.POST, `${AuthService.ROUTE}/register`, {
-      username,
-      password
+    return this.request(HttpMethod.POST, `${this.ROUTE}/register`, {
+      body: {
+        username,
+        password
+      }
     });
   }
 

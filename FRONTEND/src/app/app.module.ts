@@ -26,6 +26,7 @@ import { ToastComponent } from './shared/common/toastr/toast.component';
       progressBar: true
     })
   ],
+  // @ts-ignore
   providers: [{
     multi: true,
     provide: HTTP_INTERCEPTORS,

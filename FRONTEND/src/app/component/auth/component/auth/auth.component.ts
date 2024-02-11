@@ -8,6 +8,7 @@ import { EqualValidator } from '../../../../shared/validator/equal.validator';
 import { AppConfig } from '../../../../app.config';
 import { HOME } from '../../../home/home.constant';
 import { AbstractComponent } from '../../../../shared/common/abstract.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface AuthFormGroup {
   username: FormControl;
@@ -56,10 +57,15 @@ export class AuthComponent extends AbstractComponent {
     const { username, password } = this.authFormGroup.value;
     if (this.signInProgress) {
       this.authService.signIn(username, password)
-        .subscribe((authResponse: AuthResponse): void => {
-          this.appConfig.token = authResponse.token;
-          sessionStorage.setItem('auth.token', authResponse.token);
-          this.router.navigate([`/${HOME}`]).then();
+        .subscribe({
+          next: (authResponse: AuthResponse): void => {
+            this.appConfig.token = authResponse.token;
+            sessionStorage.setItem('auth.token', authResponse.token);
+            this.router.navigate([`/${HOME}`]).then();
+          },
+          error: (error: HttpErrorResponse): void => {
+
+          }
         });
     } else {
       this.authService.signUp(username, password)
