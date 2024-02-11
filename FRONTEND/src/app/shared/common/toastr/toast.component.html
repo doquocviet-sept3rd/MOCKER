@@ -1,0 +1,14 @@
+<div #container
+     class='{{ bgColor }} tw-mt-3 tw-relative tw-overflow-hidden tw-rounded-md tw-w-80 tw-drop-shadow hover:tw-drop-shadow-xl tw-cursor-pointer tw-text-sm text-secondary'>
+  <div
+    class='tw-flex tw-items-center tw-px-3 tw-py-2'>
+    <div>
+      <img [alt]='toastType' [src]='icon'/>
+    </div>
+    <div class='tw-ml-3'>
+      <p class='tw-font-medium'>{{ title }}</p>
+      <p>{{ message }}</p>
+    </div>
+  </div>
+  <p class='tw-absolute tw-bottom-0 tw-h-1 bg-secondary' [style]='{width: (width * containerWith / 100) + "px"}'></p>
+</div>

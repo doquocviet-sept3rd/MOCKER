@@ -7,6 +7,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AbstractService } from './shared/service/abstract.service';
 import { SharedModule } from './shared/shared.module';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastComponent } from './shared/common/toastr/toast.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -16,7 +19,12 @@ import { TranslateService } from '@ngx-translate/core';
     BrowserModule,
     HttpClientModule,
     TRANSLATE,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      toastComponent: ToastComponent,
+      progressBar: true
+    })
   ],
   providers: [{
     multi: true,
