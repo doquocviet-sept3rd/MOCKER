@@ -33,7 +33,7 @@ export class DialogModal extends AbstractModal implements OnInit {
 
   ngOnInit(): void {
     this.type = this.options.type!;
-    this.title = this.translateService.instant(`modal.dialog.title.${this.type}`);
+    this.title = this.options.title || this.translateService.instant(`modal.dialog.title.${this.type}`);
     switch (this.type) {
       case DialogType.CONFIRM:
         this.bgColor = 'bg-primary';

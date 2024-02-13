@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AbstractException extends RuntimeException {
+    private String type;
     private String message;
-    private String additionalMessage;
     private ErrorDto.CodeEnum codeEnum;
 
-    public AbstractException(String additionalMessage) {
-        super(additionalMessage);
-        this.additionalMessage = additionalMessage;
+    public AbstractException(String message, Throwable cause) {
+        super(message, cause);
+        this.message = message;
     }
 }

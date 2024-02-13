@@ -6,13 +6,26 @@
     "confirm": "Confirm",
     "cancel": "Cancel"
   },
+  "error": {
+    "response": {
+      "internal_server_error": "The server returned an error while processing the request, please contact the administrator and try again later"
+    },
+    "message": {
+      "email": "The input was invalid email address",
+      "required": "This field is required"
+    },
+    "javascript": {
+      "title": "JavaScript Error"
+    }
+  },
   "component": {
     "sign_up": {
       "sign_up": "sign up",
       "welcome": "Welcome Friend!",
       "welcome_message": "If you already have a account, please <br/> click the SIGN IN button to continue",
       "create_account": "Create Account",
-      "use_email_message": "or use your email for registration"
+      "use_email_message": "or use your email for registration",
+      "password_is_not_equal": "The confirm password is not match with the password"
     },
     "sign_in": {
       "sign_in": "sign in",
@@ -25,7 +38,8 @@
       "title": {
         "success": "Success",
         "error": "Error",
-        "warning": "Warning"
+        "warning": "Warning",
+        "info": "Information"
       }
     }
   },

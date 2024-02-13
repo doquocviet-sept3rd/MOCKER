@@ -5,13 +5,14 @@ import { ForgotComponent } from './component/forgot/forgot.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrencyPipe, NgIf, NgOptimizedImage, TitleCasePipe } from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     AuthComponent,
     ForgotComponent
   ],
-    imports: [AuthRoutesModule, TranslateModule, NgOptimizedImage, CurrencyPipe, TitleCasePipe, NgIf, ReactiveFormsModule]
+    imports: [AuthRoutesModule, TranslateModule, NgOptimizedImage, CurrencyPipe, TitleCasePipe, NgIf, ReactiveFormsModule, SharedModule]
 })
 export class AuthModule {
 }

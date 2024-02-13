@@ -14,7 +14,6 @@ export class DomUtil {
       .find((formControlName: string): boolean => formGroup.get(formControlName)!.invalid)!;
     const nativeElement = document.querySelector(`[formControlName=${firstInvalidControlName}]`);
     this.scrollTo(nativeElement);
-    console.log(nativeElement);
   }
 
 

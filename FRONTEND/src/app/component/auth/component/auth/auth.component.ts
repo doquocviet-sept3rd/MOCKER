@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AUTH, SIGN_IN, SIGN_UP } from '../../auth.constant';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthResponse, AuthService } from '../../../../shared/service/auth.service';
 import { DomUtil } from '../../../../shared/util/dom.util';
 import { EqualValidator } from '../../../../shared/validator/equal.validator';
@@ -9,10 +9,17 @@ import { AppConfig } from '../../../../app.config';
 import { HOME } from '../../../home/home.constant';
 import { AbstractComponent } from '../../../../shared/common/abstract.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { CodeEnum } from '../../../../shared/service/service.constant';
+import {
+  USERNAME_ALREADY_REGISTERED,
+  USERNAME_OR_PASSWORD_ARE_INCORRECT
+} from '../../../../shared/common/error.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 interface AuthFormGroup {
-  username: FormControl;
-  password: FormControl;
+  username: FormControl<any>;
+  password: FormControl<any>;
 }
 
 @Component({
@@ -23,14 +30,17 @@ interface AuthFormGroup {
 export class AuthComponent extends AbstractComponent {
   signInProgress: boolean = false;
   authFormGroup: FormGroup<AuthFormGroup>;
-  confirmPassword: FormControl;
+  confirmPassword: FormControl<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     formBuilder: FormBuilder,
     private authService: AuthService,
-    private appConfig: AppConfig
+    private appConfig: AppConfig,
+    private toastService: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private translateService: TranslateService
   ) {
     super();
     this.signInProgress = this.activatedRoute.routeConfig?.path === SIGN_IN;
@@ -38,7 +48,35 @@ export class AuthComponent extends AbstractComponent {
       username: formBuilder.control(undefined, [Validators.required, Validators.email]),
       password: formBuilder.control(undefined, [Validators.required])
     });
-    this.confirmPassword = formBuilder.control(undefined, [Validators.required, EqualValidator(this.authFormGroup.controls.password)]);
+    this.authFormGroup.controls.username.valueChanges.subscribe((): void => {
+      let errors: ValidationErrors | null = this.authFormGroup.controls.username.errors;
+      if (!errors) {
+        return;
+      }
+      delete errors[USERNAME_ALREADY_REGISTERED];
+      delete errors[USERNAME_OR_PASSWORD_ARE_INCORRECT];
+      if (!Object.keys(errors)?.length) {
+        errors = null;
+      }
+      this.authFormGroup.controls.username.setErrors(errors);
+      this.changeDetectorRef.detectChanges();
+    });
+    this.authFormGroup.controls.password.valueChanges.subscribe((): void => {
+      let errors: ValidationErrors | null = this.authFormGroup.controls.username.errors;
+      if (!errors) {
+        return;
+      }
+      delete errors[USERNAME_OR_PASSWORD_ARE_INCORRECT];
+      if (!Object.keys(errors)?.length) {
+        errors = null;
+      }
+      this.authFormGroup.controls.username.setErrors(errors);
+      this.changeDetectorRef.detectChanges();
+    });
+    this.confirmPassword = formBuilder.control(undefined, [
+      Validators.required,
+      EqualValidator(this.authFormGroup.controls.password, this.translateService.instant('component.sign_up.password_is_not_equal'))
+    ]);
   }
 
   signIn(): void {
@@ -61,18 +99,41 @@ export class AuthComponent extends AbstractComponent {
           next: (authResponse: AuthResponse): void => {
             this.appConfig.token = authResponse.token;
             sessionStorage.setItem('auth.token', authResponse.token);
-            this.router.navigate([`/${HOME}`]).then();
+            this.router.navigate([`/${HOME}`])
+              .then((): void => {
+                this.toastService.success('Login successfully');
+              });
           },
-          error: (error: HttpErrorResponse): void => {
-
+          error: (httpErrorResponse: HttpErrorResponse): void => {
+            if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
+              this.authFormGroup.controls.username.setErrors({
+                ...this.authFormGroup.controls.username.errors,
+                [USERNAME_OR_PASSWORD_ARE_INCORRECT]: httpErrorResponse.error.message
+              });
+            } else {
+              throw new Error(httpErrorResponse.error.message);
+            }
           }
         });
     } else {
       this.authService.signUp(username, password)
-        .subscribe((authResponse: AuthResponse): void => {
-          sessionStorage.setItem('auth.token', authResponse.token);
-          this.appConfig.token = authResponse.token;
-          this.router.navigate([`/${HOME}`]).then();
+        .subscribe({
+          next: (authResponse: AuthResponse): void => {
+            sessionStorage.setItem('auth.token', authResponse.token);
+            this.appConfig.token = authResponse.token;
+            this.router.navigate([`/${HOME}`]).then();
+          },
+          error: (httpErrorResponse: HttpErrorResponse): void => {
+            if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
+              this.authFormGroup.controls.username.setErrors({
+                ...this.authFormGroup.controls.username.errors,
+                [USERNAME_ALREADY_REGISTERED]: httpErrorResponse.error.message
+              });
+            } else {
+              // @ts-ignore
+              throw new Error(httpErrorResponse);
+            }
+          }
         });
     }
   }

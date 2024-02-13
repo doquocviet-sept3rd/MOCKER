@@ -53,7 +53,7 @@ export class ModalProvider {
     return this.show(this.options);
   }
 
-  show(options: DialogModalOptions): Observable<any> {
+  private show(options: DialogModalOptions): Observable<any> {
     return this.modalService.open(DialogModal, options);
   }
 

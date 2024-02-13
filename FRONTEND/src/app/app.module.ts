@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutesModule } from './app-routes.module';
 import { TRANSLATE, translateFactory } from './app.translate';
@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastComponent } from './shared/common/toastr/toast.component';
+import { ErrorHandlerService } from './shared/common/error-handler.service';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -36,6 +37,9 @@ import { ToastComponent } from './shared/common/toastr/toast.component';
     provide: APP_INITIALIZER,
     useFactory: translateFactory,
     deps: [TranslateService]
+  }, {
+    provide: ErrorHandler,
+    useClass: ErrorHandlerService
   }]
 })
 export class AppModule {

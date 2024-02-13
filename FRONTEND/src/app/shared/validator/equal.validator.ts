@@ -1,16 +1,13 @@
-import {AbstractControl, FormControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { IS_NOT_EQUAL } from '../common/error.constant';
 
-export function EqualValidator(target: FormControl): ValidatorFn {
+export function EqualValidator(target: FormControl<any>, message?: string): ValidatorFn {
   return (control: AbstractControl): (ValidationErrors | null) => {
-    let currentErrors = {
-      ...control.errors
-    };
     if (control.value !== target.value) {
-      currentErrors = {
-        ...currentErrors,
-        isNotEqual: control.value
+      return {
+        [IS_NOT_EQUAL]: message || true
       };
     }
-    return currentErrors;
+    return null;
   };
 }

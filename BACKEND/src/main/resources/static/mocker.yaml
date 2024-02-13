@@ -170,7 +170,7 @@ components:
           type: string
         status:
           type: integer
-        message:
+        type:
           type: string
         code:
           enum:
@@ -190,7 +190,7 @@ components:
             * NOT_FOUND - resource not found.
             * CONFLICT - business error.
             * INVALID_STATUS - resource status is not valid.
-        additionalMessage:
+        message:
           type: string
   responses:
     NotFound:

@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 export enum ToastType {
   SUCCESS = 'toast-success',
   ERROR = 'toast-error',
-  WARNING = 'toast-warning'
+  WARNING = 'toast-warning',
+  INFO = 'toast-info'
 }
 
 @Component({
@@ -46,6 +47,11 @@ export class ToastComponent extends Toast implements OnInit, AfterViewInit {
         this.icon = 'assets/material/icons/warning.png';
         this.title = this.title || this.translateService.instant('component.toast.title.warning');
         this.bgColor = 'tw-bg-yellow-400';
+        break;
+      case ToastType.INFO:
+        this.icon = 'assets/material/icons/info.png';
+        this.title = this.title || this.translateService.instant('component.toast.title.info');
+        this.bgColor = 'tw-bg-blue-400';
         break;
     }
   }

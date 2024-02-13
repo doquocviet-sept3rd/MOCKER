@@ -17,7 +17,8 @@ export class AuthService extends AbstractService<any> {
       body: {
         username,
         password
-      }
+      },
+      errorIgnore: true
     });
   }
 
@@ -26,7 +27,8 @@ export class AuthService extends AbstractService<any> {
       body: {
         username,
         password
-      }
+      },
+      errorIgnore: true
     });
   }
 

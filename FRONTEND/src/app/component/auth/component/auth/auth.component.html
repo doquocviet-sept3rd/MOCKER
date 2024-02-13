@@ -32,25 +32,29 @@
       </p>
       <form class='tw-mt-4 tw-text-center' [formGroup]="authFormGroup">
         <div class='tw-relative'>
-          <img class='tw-w-5 tw-absolute tw-top-[calc(50%-10px)] tw-left-3' src='assets/material/icons/email.png'
+          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/email.png'
                alt='email'/>
-          <input type='email' formControlName="username" class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+          <input validation [self]='authFormGroup.controls.username' type='email' formControlName='username'
+                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.email" | translate | titlecase'/>
         </div>
         <div class='tw-relative tw-mt-4'>
-          <img class='tw-w-5 tw-absolute tw-top-[calc(50%-10px)] tw-left-3' src='assets/material/icons/password.svg'
+          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
                alt='password'/>
-          <input type='password' formControlName="password" class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+          <input validation [self]='authFormGroup.controls.password' type='password' formControlName='password'
+                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.password" | translate | titlecase'/>
         </div>
         <div *ngIf='!signInProgress' class='tw-relative tw-mt-4'>
-          <img class='tw-w-5 tw-absolute tw-top-[calc(50%-10px)] tw-left-3' src='assets/material/icons/password.svg'
+          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
                alt='password'/>
-          <input type='password' class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+          <input validation type='password' [formControl]='confirmPassword'
+                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.confirm_password" | translate | titlecase'/>
         </div>
-        <button class='first-letter:tw-underline tw-mt-5 tw-border tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'
-        (click)='submit()'>
+        <button
+          class='first-letter:tw-underline tw-mt-5 tw-border tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'
+          (click)='submit()'>
           {{ (signInProgress ? 'component.sign_in.sign_in' : 'component.sign_up.sign_up') | translate }}
         </button>
       </form>

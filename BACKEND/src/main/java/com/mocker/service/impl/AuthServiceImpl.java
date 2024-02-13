@@ -10,6 +10,7 @@ import com.mocker.repository.UserRepository;
 import com.mocker.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse authenticate(AuthRequest authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authRequest.getUsername(),
-                authRequest.getPassword()
-        ));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authRequest.getUsername(),
+                    authRequest.getPassword()
+            ));
+        } catch (BadCredentialsException badCredentialsException) {
+            throw new BadRequestException("The username or password are incorrect");
+        }
         final User user = userRepository.findByUsername(authRequest.getUsername()).orElseThrow();
         final String jwtToken = jwtService.generateToken(UserDetail.of(user));
         return AuthResponse.builder()

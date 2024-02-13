@@ -12,6 +12,8 @@ import {
 } from '@angular/common/http';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { AppConfig } from '../../app.config';
+import { ModalProvider } from '../modal/modal.provider';
+import { TranslateService } from '@ngx-translate/core';
 
 export enum HttpMethod {
   GET = 'GET',
@@ -36,7 +38,9 @@ export abstract class AbstractService<T> implements HttpInterceptor {
 
   constructor(
     protected httpClient: HttpClient,
-    private appConfig: AppConfig
+    private appConfig: AppConfig,
+    private modalProvider: ModalProvider,
+    private translateService: TranslateService
   ) {
   }
 
@@ -131,7 +135,22 @@ export abstract class AbstractService<T> implements HttpInterceptor {
 
   defaultHandler(error: HttpErrorResponse, errorIgnore?: boolean): Observable<any> {
     if (!errorIgnore) {
-
+      switch (error.status) {
+        case 500: {
+          // Internal Server Error
+          this.modalProvider.error({
+            title: error.statusText,
+            description: this.translateService.instant('error.response.internal_server_error')
+          });
+          break;
+        }
+        default: {
+          this.modalProvider.error({
+            title: error.statusText,
+            description: error.message
+          });
+        }
+      }
     }
     return throwError(() => error);
   }
