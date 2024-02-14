@@ -17,40 +17,52 @@
       </p>
       <div class='tw-flex tw-mt-6'>
         <button class='tw-w-9 tw-h-9' (click)='loginByGoogle()'>
-          <img class='tw-border tw-rounded-full' src='assets/material/icons/google.svg' alt='google'/>
+          <img class='tw-border tw-rounded-full' ngSrc='assets/material/icons/google.svg' alt='google' height='50'
+               width='50'/>
         </button>
         <button class='tw-ml-5 tw-w-9 tw-h-9' (click)='loginByGitHub()'>
-          <img class='tw-border tw-rounded-full' src='assets/material/icons/github.svg' alt='github'/>
+          <img class='tw-border tw-rounded-full' ngSrc='assets/material/icons/github.svg' alt='github' height='48'
+               width='48'/>
         </button>
         <button class='tw-ml-5 tw-w-9 tw-h-9' (click)='loginByFacebook()'>
-          <img class='tw-border tw-rounded-full' src='assets/material/icons/facebook.svg' alt='facebook'/>
+          <img class='tw-border tw-rounded-full' ngSrc='assets/material/icons/facebook.svg' alt='facebook' height='50'
+               width='50'/>
         </button>
       </div>
       <p
         class='using-email-label tw-mt-6 text-secondary'>
         {{ (signInProgress ? 'component.sign_in.use_email_message' : 'component.sign_up.use_email_message') | translate }}
       </p>
-      <form class='tw-mt-4 tw-text-center' [formGroup]="authFormGroup">
+      <form class='tw-mt-4 tw-text-center' [formGroup]='authFormGroup'>
         <div class='tw-relative'>
-          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/email.png'
-               alt='email'/>
+          <img ngSrc='assets/material/icons/email.png' class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3'
+               alt='email' height='64' width='64'/>
           <input type='email' formControlName='username'
-                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+                 class='{{ FormUtil.errorClass(authFormGroup.controls.username, authFormGroup.controls.username.errors, "tw-border-red-400") }} tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.email" | translate | titlecase'/>
+          <app-validation class='tw-text-left tw-mt-2 tw-block tw-w-80'
+                          [self]='authFormGroup.controls.username'
+                          [errors]='authFormGroup.controls.username.errors'></app-validation>
         </div>
         <div class='tw-relative tw-mt-4'>
-          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
-               alt='password'/>
+          <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' ngSrc='assets/material/icons/password.svg'
+               alt='password' height='64' width='64'/>
           <input type='password' formControlName='password'
-                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+                 class='{{ FormUtil.errorClass(authFormGroup.controls.password, authFormGroup.controls.password.errors, "tw-border-red-400") }} tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.password" | translate | titlecase'/>
+          <app-validation class='tw-text-left tw-mt-2 tw-block tw-w-80'
+                          [self]='authFormGroup.controls.password'
+                          [errors]='authFormGroup.controls.password.errors'></app-validation>
         </div>
         <div *ngIf='!signInProgress' class='tw-relative tw-mt-4'>
           <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
                alt='password'/>
           <input type='password' [formControl]='confirmPassword'
-                 class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
+                 class='{{ FormUtil.errorClass(confirmPassword, confirmPassword.errors, "tw-border-red-400") }} tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.confirm_password" | translate | titlecase'/>
+          <app-validation class='tw-text-left tw-mt-2 tw-block tw-w-80'
+                          [self]='confirmPassword'
+                          [errors]='confirmPassword.errors'></app-validation>
         </div>
         <button
           class='first-letter:tw-underline tw-mt-5 tw-border tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'

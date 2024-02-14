@@ -17,6 +17,7 @@ import {
 } from '../../../../shared/common/error.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalProvider } from '../../../../shared/modal/modal.provider';
+import { FormUtil } from '../../../../shared/util/form.util';
 
 interface AuthFormGroup {
   username: FormControl<any>;
@@ -29,6 +30,7 @@ interface AuthFormGroup {
   styleUrls: ['auth.component.scss']
 })
 export class AuthComponent extends AbstractComponent {
+  protected readonly FormUtil = FormUtil;
   signInProgress: boolean = false;
   authFormGroup: FormGroup<AuthFormGroup>;
   confirmPassword: FormControl<any>;
@@ -90,7 +92,7 @@ export class AuthComponent extends AbstractComponent {
   }
 
   submit(): void {
-    this.authFormGroup.markAsTouched();
+    this.authFormGroup.markAllAsTouched();
     if (this.authFormGroup.invalid) {
       DomUtil.scrollToFirstInvalidControl(this.authFormGroup);
       return;

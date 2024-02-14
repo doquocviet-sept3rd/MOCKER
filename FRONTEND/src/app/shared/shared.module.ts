@@ -5,15 +5,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgIf } from '@angular/common';
 import { ToastComponent } from './common/toastr/toast.component';
 import { ValidationDirective } from './directive/validation.directive';
+import { ValidationComponent } from './component/validation/validation.component';
 
 @NgModule({
   declarations: [
     DialogModal,
     ToastComponent,
-    ValidationDirective
+    ValidationDirective,
+    ValidationComponent
   ],
   exports: [
-    ValidationDirective
+    ValidationDirective,
+    ValidationComponent
   ],
   imports: [
     ModalServiceModule,
