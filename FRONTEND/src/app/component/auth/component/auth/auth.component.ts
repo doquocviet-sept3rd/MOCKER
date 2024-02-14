@@ -16,6 +16,7 @@ import {
   USERNAME_OR_PASSWORD_ARE_INCORRECT
 } from '../../../../shared/common/error.constant';
 import { TranslateService } from '@ngx-translate/core';
+import { ModalProvider } from '../../../../shared/modal/modal.provider';
 
 interface AuthFormGroup {
   username: FormControl<any>;
@@ -40,7 +41,8 @@ export class AuthComponent extends AbstractComponent {
     private appConfig: AppConfig,
     private toastService: ToastrService,
     private changeDetectorRef: ChangeDetectorRef,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalProvider: ModalProvider
   ) {
     super();
     this.signInProgress = this.activatedRoute.routeConfig?.path === SIGN_IN;
@@ -88,6 +90,7 @@ export class AuthComponent extends AbstractComponent {
   }
 
   submit(): void {
+    this.authFormGroup.markAsTouched();
     if (this.authFormGroup.invalid) {
       DomUtil.scrollToFirstInvalidControl(this.authFormGroup);
       return;
@@ -139,15 +142,21 @@ export class AuthComponent extends AbstractComponent {
   }
 
   loginByGoogle(): void {
-
+    this.modalProvider.inform({
+      description: 'This feature currently is disabled, please use email and password instead'
+    });
   }
 
   loginByGitHub(): void {
-
+    this.modalProvider.inform({
+      description: 'This feature currently is disabled, please use email and password instead'
+    });
   }
 
   loginByFacebook(): void {
-
+    this.modalProvider.inform({
+      description: 'This feature currently is disabled, please use email and password instead'
+    });
   }
 
 }

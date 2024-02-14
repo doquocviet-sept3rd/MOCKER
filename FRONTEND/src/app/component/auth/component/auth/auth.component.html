@@ -1,4 +1,4 @@
-<div class='screen tw-bg-white tw-flex tw-justify-center tw-items-center'>
+<div class='tw-animate-fade screen tw-bg-white tw-flex tw-justify-center tw-items-center'>
   <div class='tw-flex tw-text-sm tw-shadow-2xl tw-rounded-xl tw-overflow-hidden'>
     <div class='bg-primary tw-w-112 tw-p-10 text-secondary tw-flex tw-justify-center tw-items-center tw-flex-col'>
       <p class='tw-text-4xl'>
@@ -34,21 +34,21 @@
         <div class='tw-relative'>
           <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/email.png'
                alt='email'/>
-          <input validation [self]='authFormGroup.controls.username' type='email' formControlName='username'
+          <input type='email' formControlName='username'
                  class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.email" | translate | titlecase'/>
         </div>
         <div class='tw-relative tw-mt-4'>
           <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
                alt='password'/>
-          <input validation [self]='authFormGroup.controls.password' type='password' formControlName='password'
+          <input type='password' formControlName='password'
                  class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.password" | translate | titlecase'/>
         </div>
         <div *ngIf='!signInProgress' class='tw-relative tw-mt-4'>
           <img class='tw-w-5 tw-absolute tw-top-[calc(11px)] tw-left-3' src='assets/material/icons/password.svg'
                alt='password'/>
-          <input validation type='password' [formControl]='confirmPassword'
+          <input type='password' [formControl]='confirmPassword'
                  class='tw-border bg-secondary tw-w-80 tw-rounded tw-pl-10 tw-py-2.5 tw-pr-2.5'
                  [placeholder]='"label.confirm_password" | translate | titlecase'/>
         </div>

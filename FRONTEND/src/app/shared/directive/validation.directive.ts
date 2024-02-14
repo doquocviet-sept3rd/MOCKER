@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { KeyValue } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ValidationDirective implements OnInit {
   @Input() formControl: FormControl<any>;
+  @Input() formGroup: FormGroup;
   @Input() self: FormControl<any>;
   @Input() selfClass: string[] = [];
   @Input() errorClass: string[] = [];
@@ -20,6 +21,18 @@ export class ValidationDirective implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.formGroup) {
+      this.formGroup.statusChanges.subscribe((): void => {
+        if (!this.formGroup.touched && !this.formGroup.dirty) {
+          return;
+        }
+        Object.keys(this.formGroup.controls).forEach((formControlName: string): void => {
+          this.errorsChange(this.formGroup.controls[formControlName] as FormControl, true);
+        });
+      });
+      return;
+    }
+
     this.errorElement = document.createElement('div');
     if (!this.errorClass.length) {
       this.errorElement.classList.add('tw-text-red-400');
@@ -52,8 +65,8 @@ export class ValidationDirective implements OnInit {
     }
   }
 
-  errorsChange(control: FormControl<any>): void {
-    if (!control.touched && !control.dirty) {
+  errorsChange(control: FormControl<any>, ignoreTouchedAndDirty?: boolean): void {
+    if (!ignoreTouchedAndDirty && (!control.touched && !control.dirty)) {
       return;
     }
     const errors: ValidationErrors | null = control.errors;
