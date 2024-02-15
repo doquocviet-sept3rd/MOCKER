@@ -13,7 +13,6 @@ import {
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { AppConfig } from '../../app.config';
 import { ModalProvider } from '../modal/modal.provider';
-import { TranslateService } from '@ngx-translate/core';
 
 export enum HttpMethod {
   GET = 'GET',
@@ -35,12 +34,12 @@ const ERROR_IGNORE_CONTEXT: HttpContextToken<boolean> = new HttpContextToken<boo
 export abstract class AbstractService<T> implements HttpInterceptor {
   // to be overridden
   abstract ROUTE: string;
+  BUFFERS: number = 0;
 
   constructor(
     protected httpClient: HttpClient,
     private appConfig: AppConfig,
-    private modalProvider: ModalProvider,
-    private translateService: TranslateService
+    private modalProvider: ModalProvider
   ) {
   }
 
@@ -114,6 +113,7 @@ export abstract class AbstractService<T> implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.BUFFERS++;
     return next
       // Add token when requesting
       .handle(req.clone({
@@ -198,7 +198,10 @@ export abstract class AbstractService<T> implements HttpInterceptor {
   }
 
   finalize(): void {
-    this.appConfig.processing.setValue(false);
+    this.BUFFERS--;
+    if (this.BUFFERS === 0) {
+      this.appConfig.processing.setValue(false);
+    }
   }
 
 }
