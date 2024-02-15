@@ -1,7 +1,8 @@
 <div class='container tw-relative tw-p-5 tw-drop-shadow-xl tw-rounded-xl tw-text-sm tw-overflow-hidden'>
   <p class='tw-absolute tw-w-full tw-h-1.5 {{ bgColor }} tw-top-0 tw-left-0'></p>
   <p class='tw-font-medium'>{{ title }}</p>
-  <p class='tw-mt-3'>{{ options.description }}</p>
+  <p class='tw-mt-3' *ngIf='options.description'>{{ options.description | translate }}</p>
+  <p class='tw-mt-3' *ngIf='options.body' [innerHTML]='options.body'></p>
   <div class='tw-mt-3 tw-flex tw-justify-end'>
     <button *ngIf='hasConfirmButton' (click)='onConfirm()'
             class='confirm-button {{ bgColor }} tw-text-white tw-px-3 tw-py-2 tw-rounded-md hover:tw-drop-shadow'>

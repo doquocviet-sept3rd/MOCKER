@@ -12,7 +12,10 @@
     },
     "message": {
       "email": "The input was invalid email address",
-      "required": "This field is required"
+      "required": "This field is required",
+      "minlength": "The minimum length of this field must be at least {{ requiredLength }} characters",
+      "maxlength": "The maximum length of this field must be max {{ requiredLength }} characters",
+      "is_not_number": "The input is not a number"
     },
     "javascript": {
       "title": "JavaScript Error"
@@ -25,14 +28,16 @@
       "welcome_message": "If you already have a account, please <br/> click the SIGN IN button to continue",
       "create_account": "Create Account",
       "use_email_message": "or use your email for registration",
-      "password_is_not_equal": "The confirm password is not match with the password"
+      "password_is_not_equal": "The confirm password is not match with the password",
+      "success": "You have successfully signed up with your account"
     },
     "sign_in": {
       "sign_in": "sign in",
       "welcome": "Welcome Friend!",
       "welcome_message": "If you don't have a account yet, please <br/> click the SIGN UP button to continue",
       "access_your_account": "Access Your Account",
-      "use_email_message": "or use your email for login"
+      "use_email_message": "or use your email for login",
+      "success": "Login successfully"
     },
     "toast": {
       "title": {
@@ -51,6 +56,17 @@
         "INFORM": "INFORMATION",
         "WARN": "WARNING"
       }
+    },
+    "otp_code": {
+      "title": "Verify your email",
+      "label1": "Please enter the 6-digit verification number code that was sent to your email.",
+      "label2": "The code is valid for 5 minutes.",
+      "code": "CODE",
+      "verification_label": "Verification code:",
+      "resent_successful": "The verification email has been resent successfully, please open your mailbox and try again",
+      "label3": "if you don\\'t see the verification email in your inbox, please check your spam folder or",
+      "click": " click ",
+      "label4": "to resend the email"
     }
   }
 }

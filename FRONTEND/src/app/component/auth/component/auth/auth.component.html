@@ -7,7 +7,7 @@
       <p class='tw-mt-10 tw-text-center'
          [innerHTML]='(signInProgress ? "component.sign_in.welcome_message" : "component.sign_up.welcome_message") | translate'></p>
       <button class='first-letter:tw-underline tw-mt-10 tw-border tw-py-3 tw-uppercase tw-px-12 tw-rounded-3xl'
-              (click)='signInProgress ? signUp() : signIn()'>
+              (click)='signInProgress ? navigateSignUp() : navigateSignIn()'>
         {{ (signInProgress ? 'component.sign_up.sign_up' : 'component.sign_in.sign_in') | translate }}
       </button>
     </div>
@@ -65,7 +65,7 @@
                           [errors]='confirmPassword.errors'></app-validation>
         </div>
         <button
-          class='first-letter:tw-underline tw-mt-5 tw-border tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'
+          class='first-letter:tw-underline tw-mt-5 hover:tw-drop-shadow-xl tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'
           (click)='submit()'>
           {{ (signInProgress ? 'component.sign_in.sign_in' : 'component.sign_up.sign_up') | translate }}
         </button>

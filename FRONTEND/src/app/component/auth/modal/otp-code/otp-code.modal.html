@@ -1,0 +1,32 @@
+<form class='container tw-relative tw-text-sm tw-w-96 tw-px-5 tw-py-10 tw-rounded-xl tw-drop-shadow-xl'>
+  <div (click)='close()' class='tw-absolute tw-top-3 tw-right-3 tw-cursor-pointer'>
+    <img ngSrc='assets/material/icons/x.png' alt='x' height='20' width='20'/>
+  </div>
+  <div class='tw-flex tw-justify-center tw-items-center'>
+    <img ngSrc='assets/material/icons/email2.png' height='64' width='64' alt='email2'/>
+    <span class='tw-text-2xl tw-font-medium tw-ml-3'>{{ 'modal.otp_code.title' | translate }}</span>
+  </div>
+  <p
+    class='tw-mt-3 tw-text-center'>{{ 'modal.otp_code.label1' | translate }}</p>
+  <p class='tw-mt-2 tw-text-center'>{{ 'modal.otp_code.label2' | translate }}</p>
+  <div class='tw-mt-5'>
+    <label for='code'>{{ 'modal.otp_code.verification_label' | translate }}</label>
+    <input id='code' [formControl]='otpCode' #code
+           [placeholder]='"modal.otp_code.code" | translate'
+           class='{{ FormUtil.errorClass(otpCode, otpCode.errors, "tw-border-red-400") }} tw-block tw-border tw-w-full bg-secondary tw-rounded tw-px-2.5 tw-py-2 tw-mt-2'/>
+    <app-validation class='tw-text-left tw-mt-2 tw-block tw-w-80'
+                    [self]='otpCode'
+                    [errors]='otpCode.errors'></app-validation>
+  </div>
+  <div class='tw-text-center'>
+    <button (click)='submit()' type='submit'
+            class='tw-mt-5 first-letter:tw-underline hover:tw-drop-shadow-xl tw-uppercase text-secondary bg-primary tw-py-3 tw-px-12 tw-rounded-3xl'>{{ 'Continue' }}
+    </button>
+  </div>
+  <p
+    class='resend-label tw-mt-5 tw-text-gray-400'>{{ 'modal.otp_code.label3' | translate }}
+    <span (click)='resend()'
+          class='tw-text-blue-400 hover:tw-underline tw-cursor-pointer'>{{ 'modal.otp_code.click' | translate }}</span>
+    {{ 'modal.otp_code.label4' | translate }}
+  </p>
+</form>

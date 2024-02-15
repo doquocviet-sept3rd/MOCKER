@@ -26,4 +26,11 @@ public class AuthController implements AuthApi {
     public ResponseEntity<AuthResponseDto> authenticate(AuthRequestDto authRequestDto) {
         return ResponseEntity.ok(apiAuthMapper.map(authService.authenticate(apiAuthMapper.map(authRequestDto))));
     }
+
+    @Override
+    public ResponseEntity<Void> verify(String username) {
+        authService.verify(username);
+        return ResponseEntity.ok().build();
+    }
+
 }

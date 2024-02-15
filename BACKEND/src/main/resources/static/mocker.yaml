@@ -60,6 +60,60 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/ServerError'
+  /auth/verify:
+    parameters:
+      - in: query
+        name: username
+        required: true
+        description: the username to be verified
+        schema:
+          type: string
+          format: email
+    get:
+      operationId: verify
+      tags:
+        - Auth
+      description: verify a username
+      responses:
+        200:
+          description: the query is successful
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/AuthenticationError'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  /otp/register/{username}:
+    parameters:
+      - in: path
+        name: username
+        required: true
+        description: the username to register
+        schema:
+          type: string
+          format: email
+    post:
+      operationId: register
+      tags:
+        - Otp
+      description: register a new otp
+      responses:
+        200:
+          description: the otp code was sent successfully to the email
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/AuthenticationError'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
   /users/{id}:
     parameters:
       - in: path
@@ -153,6 +207,9 @@ components:
           format: email
           readOnly: true
         password:
+          type: string
+          readOnly: true
+        otpCode:
           type: string
           readOnly: true
     AuthResponse:

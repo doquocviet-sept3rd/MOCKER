@@ -55,7 +55,7 @@ export abstract class AbstractService<T> implements HttpInterceptor {
     });
   }
 
-  post(url: string, body: any, context?: {
+  post(url: string, body?: any, context?: {
     errorIgnore?: boolean,
     silent?: boolean,
     headers?: HttpHeaders
@@ -140,14 +140,14 @@ export abstract class AbstractService<T> implements HttpInterceptor {
           // Internal Server Error
           this.modalProvider.error({
             title: error.statusText,
-            description: this.translateService.instant('error.response.internal_server_error')
+            description: 'error.response.internal_server_error'
           });
           break;
         }
         default: {
           this.modalProvider.error({
             title: error.statusText,
-            description: error.message
+            body: error.message
           });
         }
       }

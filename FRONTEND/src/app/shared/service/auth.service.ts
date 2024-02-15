@@ -2,6 +2,12 @@ import { AbstractService, HttpMethod } from './abstract.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export interface AuthRequest {
+  username: string;
+  password: string;
+  otpCode?: string;
+}
+
 export interface AuthResponse {
   token: string;
 }
@@ -22,12 +28,15 @@ export class AuthService extends AbstractService<any> {
     });
   }
 
-  signUp(username: string, password: string): Observable<AuthResponse> {
+  signUp(authRequest: AuthRequest): Observable<AuthResponse> {
     return this.request(HttpMethod.POST, `${this.ROUTE}/register`, {
-      body: {
-        username,
-        password
-      },
+      body: authRequest,
+      errorIgnore: true
+    });
+  }
+
+  verify(username: string): Observable<unknown> {
+    return this.get(`${this.ROUTE}/verify?username=${username}`, {
       errorIgnore: true
     });
   }

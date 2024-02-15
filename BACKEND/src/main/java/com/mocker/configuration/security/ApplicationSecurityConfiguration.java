@@ -37,6 +37,7 @@ public class ApplicationSecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/api/v1/otp/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer

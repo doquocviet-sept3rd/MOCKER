@@ -1,8 +1,8 @@
-import {FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export class DomUtil {
 
-  private static scrollTo(element: any): void {
+  static scrollTo(element: any): void {
     if (!element) {
       return;
     }
@@ -15,6 +15,5 @@ export class DomUtil {
     const nativeElement = document.querySelector(`[formControlName=${firstInvalidControlName}]`);
     this.scrollTo(nativeElement);
   }
-
 
 }

@@ -32,6 +32,7 @@ export class ToastComponent extends Toast implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.toastType = this.toastPackage.toastType as ToastType;
+    this.message = this.translateService.instant(this.message || '');
     switch (this.toastType) {
       case ToastType.SUCCESS:
         this.icon = 'assets/material/icons/tick.png';

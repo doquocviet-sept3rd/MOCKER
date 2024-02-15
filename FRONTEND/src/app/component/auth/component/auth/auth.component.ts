@@ -14,10 +14,13 @@ import { CodeEnum } from '../../../../shared/service/service.constant';
 import {
   USERNAME_ALREADY_REGISTERED,
   USERNAME_OR_PASSWORD_ARE_INCORRECT
-} from '../../../../shared/common/error.constant';
+} from '../../../../shared/validator/validator.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalProvider } from '../../../../shared/modal/modal.provider';
 import { FormUtil } from '../../../../shared/util/form.util';
+import { OtpService } from '../../../../shared/service/otp.service';
+import { ModalService } from '../../../../shared/modal/modal.service';
+import { OtpCodeModal } from '../../modal/otp-code/otp-code.modal';
 
 interface AuthFormGroup {
   username: FormControl<any>;
@@ -44,8 +47,9 @@ export class AuthComponent extends AbstractComponent {
     private toastService: ToastrService,
     private changeDetectorRef: ChangeDetectorRef,
     private translateService: TranslateService,
-    private modalProvider: ModalProvider
-  ) {
+    private modalProvider: ModalProvider,
+    private otpService: OtpService,
+    private modalService: ModalService) {
     super();
     this.signInProgress = this.activatedRoute.routeConfig?.path === SIGN_IN;
     this.authFormGroup = formBuilder.group<AuthFormGroup>({
@@ -83,11 +87,11 @@ export class AuthComponent extends AbstractComponent {
     ]);
   }
 
-  signIn(): void {
+  navigateSignIn(): void {
     this.router.navigate([`${AUTH}/${SIGN_IN}`]).then();
   }
 
-  signUp(): void {
+  navigateSignUp(): void {
     this.router.navigate([`${AUTH}/${SIGN_UP}`]).then();
   }
 
@@ -99,65 +103,81 @@ export class AuthComponent extends AbstractComponent {
     }
     const { username, password } = this.authFormGroup.value;
     if (this.signInProgress) {
-      this.authService.signIn(username, password)
-        .subscribe({
-          next: (authResponse: AuthResponse): void => {
-            this.appConfig.token = authResponse.token;
-            sessionStorage.setItem('auth.token', authResponse.token);
-            this.router.navigate([`/${HOME}`])
-              .then((): void => {
-                this.toastService.success('Login successfully');
-              });
-          },
-          error: (httpErrorResponse: HttpErrorResponse): void => {
-            if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
-              this.authFormGroup.controls.username.setErrors({
-                ...this.authFormGroup.controls.username.errors,
-                [USERNAME_OR_PASSWORD_ARE_INCORRECT]: httpErrorResponse.error.message
-              });
-            } else {
-              throw new Error(httpErrorResponse.error.message);
-            }
-          }
-        });
+      this.signIn(username, password);
     } else {
-      this.authService.signUp(username, password)
-        .subscribe({
-          next: (authResponse: AuthResponse): void => {
-            sessionStorage.setItem('auth.token', authResponse.token);
-            this.appConfig.token = authResponse.token;
-            this.router.navigate([`/${HOME}`]).then();
-          },
-          error: (httpErrorResponse: HttpErrorResponse): void => {
-            if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
-              this.authFormGroup.controls.username.setErrors({
-                ...this.authFormGroup.controls.username.errors,
-                [USERNAME_ALREADY_REGISTERED]: httpErrorResponse.error.message
-              });
-            } else {
-              // @ts-ignore
-              throw new Error(httpErrorResponse);
-            }
-          }
-        });
+      this.signUp(username, password);
     }
+  }
+
+  private signIn(username: string, password: string): void {
+    this.authService.signIn(username, password)
+      .subscribe({
+        next: (authResponse: AuthResponse): void => {
+          this.appConfig.token = authResponse.token;
+          sessionStorage.setItem('auth.token', authResponse.token);
+          this.router.navigate([`/${HOME}`])
+            .then((): void => {
+              this.toastService.success('component.sign_in.success');
+            });
+        },
+        error: (httpErrorResponse: HttpErrorResponse): void => {
+          if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
+            this.authFormGroup.controls.username.setErrors({
+              ...this.authFormGroup.controls.username.errors,
+              [USERNAME_OR_PASSWORD_ARE_INCORRECT]: httpErrorResponse.error.message
+            });
+          } else {
+            throw new Error(httpErrorResponse.error.message);
+          }
+        }
+      });
+  }
+
+  private signUp(username: string, password: string): void {
+    this.authService.verify(username).subscribe({
+      next: (): void => {
+        this.otpService.register(username).subscribe((): void => {
+          this.modalService.open(OtpCodeModal, { username, password }).subscribe((token: string): void => {
+            if (!token) {
+              return;
+            }
+            sessionStorage.setItem('auth.token', token);
+            this.appConfig.token = token;
+            this.router.navigate([`/${HOME}`]).then((): void => {
+              this.toastService.success('component.sign_up.success');
+            });
+          });
+        });
+      },
+      error: (httpErrorResponse: HttpErrorResponse): void => {
+        if (httpErrorResponse.error.code === CodeEnum.BAD_REQUEST) {
+          this.authFormGroup.controls.username.setErrors({
+            ...this.authFormGroup.controls.username.errors,
+            [USERNAME_ALREADY_REGISTERED]: httpErrorResponse.error.message
+          });
+        } else {
+          // @ts-ignore
+          throw new Error(httpErrorResponse);
+        }
+      }
+    });
   }
 
   loginByGoogle(): void {
     this.modalProvider.inform({
-      description: 'This feature currently is disabled, please use email and password instead'
+      body: 'This feature currently is disabled, please use email and password instead'
     });
   }
 
   loginByGitHub(): void {
     this.modalProvider.inform({
-      description: 'This feature currently is disabled, please use email and password instead'
+      body: 'This feature currently is disabled, please use email and password instead'
     });
   }
 
   loginByFacebook(): void {
     this.modalProvider.inform({
-      description: 'This feature currently is disabled, please use email and password instead'
+      body: 'This feature currently is disabled, please use email and password instead'
     });
   }
 

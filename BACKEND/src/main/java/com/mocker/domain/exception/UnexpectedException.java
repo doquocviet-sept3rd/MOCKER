@@ -7,4 +7,9 @@ public class UnexpectedException extends AbstractException {
     public UnexpectedException(String message, String additionalMessage, ErrorDto.CodeEnum codeEnum) {
         super(message, additionalMessage, codeEnum);
     }
+
+    public UnexpectedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

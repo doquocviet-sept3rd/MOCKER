@@ -29,7 +29,13 @@ export class ValidationComponent extends AbstractComponent implements OnChanges 
       key: Object.keys(this.errors)[0],
       value: this.errors[Object.keys(this.errors)[0]]
     };
-    this.msg = firstError.value === true ? this.translateService.instant(`error.message.${firstError.key}`) : firstError.value;
+    if (firstError.key === 'maxlength' || firstError.key === 'minlength') {
+      this.msg = this.translateService.instant(`error.message.${firstError.key}`, {
+        requiredLength: firstError.value['requiredLength']
+      });
+    } else {
+      this.msg = firstError.value === true ? this.translateService.instant(`error.message.${firstError.key}`) : firstError.value;
+    }
   }
 
   get hidden(): boolean {

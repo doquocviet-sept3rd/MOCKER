@@ -5,7 +5,8 @@ import { DialogModal, DialogModalOptions, DialogType } from './dialog/dialog.mod
 
 export interface DialogOptions {
   title?: string;
-  description: string;
+  description?: string;
+  body?: string;
   confirmLabel?: string;
   cancelLabel?: string;
 }
@@ -54,6 +55,9 @@ export class ModalProvider {
   }
 
   private show(options: DialogModalOptions): Observable<any> {
+    if (!options.description && !options.body) {
+      throw new Error('The description or body must be specified');
+    }
     return this.modalService.open(DialogModal, options);
   }
 

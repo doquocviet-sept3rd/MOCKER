@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -195,6 +199,7 @@
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <modelPackage>com.mocker.domain.dto</modelPackage>
                             <generateModels>true</generateModels>
+                            <skipValidateSpec>true</skipValidateSpec>
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
